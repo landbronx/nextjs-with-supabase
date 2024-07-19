@@ -1,15 +1,16 @@
 import { useState } from 'react';
-import { supabase } from '../lib/supabaseClient';
+import { supabase } from '../utils/supabase/client';  // Adjusted path
 
 const AddItemForm = () => {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
+  const [price, setPrice] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const { data, error } = await supabase
       .from('items')
-      .insert([{ name, description }]);
+      .insert([{ name, description, price: parseFloat(price) }]);
 
     if (error) {
       console.error(error);
@@ -19,10 +20,11 @@ const AddItemForm = () => {
 
     setName('');
     setDescription('');
+    setPrice('');
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className="flex flex-col gap-4">
       <div>
         <label>Name:</label>
         <input
@@ -38,10 +40,19 @@ const AddItemForm = () => {
           type="text"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
+        />
+      </div>
+      <div>
+        <label>Price:</label>
+        <input
+          type="number"
+          step="0.01"
+          value={price}
+          onChange={(e) => setPrice(e.target.value)}
           required
         />
       </div>
-      <button type="submit">Add Item</button>
+      <button type="submit" className="btn-primary">Add Item</button>
     </form>
   );
 };
