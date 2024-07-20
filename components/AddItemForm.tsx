@@ -1,14 +1,12 @@
-import { useState, FormEvent } from 'react';
-import { createClient } from '../utils/supabase/server';  // Adjusted path
-
-const supabase = createClient();
+import { useState } from 'react';
+import { supabase } from '../utils/supabase/client';  // Adjusted path
 
 const AddItemForm = () => {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [price, setPrice] = useState('');
 
-  const handleSubmit = async (e: FormEvent) => {  // Specify the type for 'e'
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {  // Specify the type for 'e'
     e.preventDefault();
     const { data, error } = await supabase
       .from('items')
