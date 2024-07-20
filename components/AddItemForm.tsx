@@ -1,3 +1,5 @@
+"use client";
+
 import { useState } from 'react';
 import { supabase } from '../utils/supabase/client';  // Adjusted path
 
@@ -9,7 +11,7 @@ const AddItemForm = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {  // Specify the type for 'e'
     e.preventDefault();
     const { data, error } = await supabase
-      .from('items')
+      .from('Klimatdata')
       .insert([{ name, description, price: parseFloat(price) }]);
 
     if (error) {
