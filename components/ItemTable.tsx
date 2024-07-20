@@ -31,6 +31,25 @@ const ItemTable = () => {
     fetchItems();
   }, []);
 
+  const handleChange = (id: number, field: string, value: any) => {
+    setItems((prevItems) =>
+      prevItems.map((item) =>
+        item.id === id ? { ...item, [field]: value } : item
+      )
+    );
+  };
+
+  const handleBlur = async (id: number, field: string, value: any) => {
+    const { error } = await supabase
+      .from('Klimatdata')
+      .update({ [field]: value })
+      .eq('id', id);
+
+    if (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <table>
       <thead>
@@ -52,9 +71,30 @@ const ItemTable = () => {
             <tr key={item.id}>
               <td>{item.id}</td>
               <td>{item.created_at}</td>
-              <td>{item.Namn}</td>
-              <td>{item.A1_A5}</td>
-              <td>{item.ByggElement}</td>
+              <td>
+                <input
+                  type="text"
+                  value={item.Namn}
+                  onChange={(e) => handleChange(item.id, 'Namn', e.target.value)}
+                  onBlur={(e) => handleBlur(item.id, 'Namn', e.target.value)}
+                />
+              </td>
+              <td>
+                <input
+                  type="number"
+                  value={item.A1_A5 || 0}  // Ensure value is correctly set
+                  onChange={(e) => handleChange(item.id, 'A1_A5', Number(e.target.value))}
+                  onBlur={(e) => handleBlur(item.id, 'A1_A5', Number(e.target.value))}
+                />
+              </td>
+              <td>
+                <input
+                  type="text"
+                  value={item.ByggElement}
+                  onChange={(e) => handleChange(item.id, 'ByggElement', e.target.value)}
+                  onBlur={(e) => handleBlur(item.id, 'ByggElement', e.target.value)}
+                />
+              </td>
             </tr>
           ))
         )}
