@@ -4,8 +4,8 @@ import { createClient } from "@/utils/supabase/server";
 import ConnectSupabaseSteps from "@/components/tutorial/ConnectSupabaseSteps";
 import SignUpUserSteps from "@/components/tutorial/SignUpUserSteps";
 import Header from "@/components/Header";
-import AddItemForm from "@/components/AddItemForm"; // Add this import
-import ItemTable from "@/components/ItemTable"; // Add this import
+import AddItemForm from "@/components/AddItemForm"; // Import AddItemForm
+import ItemTable from "@/components/ItemTable"; // Import ItemTable
 
 export default async function Index() {
   const canInitSupabaseClient = () => {
@@ -35,6 +35,11 @@ export default async function Index() {
         <main className="flex-1 flex flex-col gap-6">
           <h2 className="font-bold text-4xl mb-4">Next steps</h2>
           {isSupabaseConnected ? <SignUpUserSteps /> : <ConnectSupabaseSteps />}
+          
+          {/* Add the ItemTable and AddItemForm components here */}
+          <h2 className="font-bold text-4xl mb-4">Klimatdata</h2>
+          <AddItemForm />
+          <ItemTable />
         </main>
       </div>
 
